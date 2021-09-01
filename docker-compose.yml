@@ -1,0 +1,28 @@
+version: '3.1'
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: postgres
+
+  client:
+    build: 
+      context: https://github.com/bry-git/mercury-frontend.git#main 
+    volumes:
+      - ./frontend/:/src/app/  
+    depends_on: 
+      - db
+    ports:
+      - 3000:3000
+    
+  server: 
+    build: 
+      context: https://github.com/bry-git/mercury-backend.git#main
+    volumes:
+      - ./backend/:/src/app/   
+    depends_on:
+      - db
+    ports:
+      - 3030:3030
